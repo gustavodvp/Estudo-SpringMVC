@@ -2,6 +2,9 @@ package br.com.estudo.mvc.EstudoSpringMVC.controller;
 
 import java.util.Arrays;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -13,17 +16,17 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
 	@GetMapping("/home")
 	public String home(Model model) {
-		ProductOrder productOrder = new ProductOrder();
-		productOrder.setProductName("Notebook Gamer Acer Nitro 5");
-		productOrder.setProductDescription("Notebook da Acer");
-		productOrder.setProductImage("https://m.media-amazon.com/images/I/81lO5pdJAbL._AC_SX450_.jpg");
-		productOrder.setProductURL("https://www.amazon.com.br/dp/B09JVHNF4Q/ref=s9_acsd_hps_bw_c2_x_0_t?pf_rd_m=A3RN7G7QC5MWSZ&pf_rd_s=merchandised-search-8&pf_rd_r=MTNPMJ24XE4JJ1B72PPW&pf_rd_t=101&pf_rd_p=d151abd6-f44f-49ff-835f-36eb0c8da138&pf_rd_i=17923699011");
+
+		Query query = entityManager.createQuery("select p from ProductOrder p", ProductOrder.class);
+		List<ProductOrder> resultList = query.getResultList();
 		
-		List<ProductOrder> listProducts = Arrays.asList(productOrder);
-		model.addAttribute("products", listProducts);
-		
+		model.addAttribute("products", resultList);
 		return "home";
 	}
 }

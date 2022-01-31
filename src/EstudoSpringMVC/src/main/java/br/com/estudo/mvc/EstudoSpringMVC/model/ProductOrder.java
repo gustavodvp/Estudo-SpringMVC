@@ -3,7 +3,17 @@ package br.com.estudo.mvc.EstudoSpringMVC.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class ProductOrder {
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String productName;
 	private BigDecimal amountPaid;
 	private LocalDate deliveryDate;
